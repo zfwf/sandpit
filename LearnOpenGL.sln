@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrawTriangle", "learnopengl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloWorld", "LearnOpenGL\HelloWorld\HelloWorld.vcxproj", "{01B1102C-A78D-4C8A-8FE0-754345CF49D4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrawTriangleSource", "LearnOpenGL\DrawTriangleSource\DrawTriangleSource.vcxproj", "{3723379F-437A-4BAB-9764-038DD9B1601A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Draw2Triangle", "LearnOpenGL\Draw2Triangle\Draw2Triangle.vcxproj", "{29FA744E-836A-4D5D-AC44-19539A0A690A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,14 +33,14 @@ Global
 		{01B1102C-A78D-4C8A-8FE0-754345CF49D4}.Release|x64.Build.0 = Release|x64
 		{01B1102C-A78D-4C8A-8FE0-754345CF49D4}.Release|x86.ActiveCfg = Release|Win32
 		{01B1102C-A78D-4C8A-8FE0-754345CF49D4}.Release|x86.Build.0 = Release|Win32
-		{3723379F-437A-4BAB-9764-038DD9B1601A}.Debug|x64.ActiveCfg = Debug|x64
-		{3723379F-437A-4BAB-9764-038DD9B1601A}.Debug|x64.Build.0 = Debug|x64
-		{3723379F-437A-4BAB-9764-038DD9B1601A}.Debug|x86.ActiveCfg = Debug|Win32
-		{3723379F-437A-4BAB-9764-038DD9B1601A}.Debug|x86.Build.0 = Debug|Win32
-		{3723379F-437A-4BAB-9764-038DD9B1601A}.Release|x64.ActiveCfg = Release|x64
-		{3723379F-437A-4BAB-9764-038DD9B1601A}.Release|x64.Build.0 = Release|x64
-		{3723379F-437A-4BAB-9764-038DD9B1601A}.Release|x86.ActiveCfg = Release|Win32
-		{3723379F-437A-4BAB-9764-038DD9B1601A}.Release|x86.Build.0 = Release|Win32
+		{29FA744E-836A-4D5D-AC44-19539A0A690A}.Debug|x64.ActiveCfg = Debug|x64
+		{29FA744E-836A-4D5D-AC44-19539A0A690A}.Debug|x64.Build.0 = Debug|x64
+		{29FA744E-836A-4D5D-AC44-19539A0A690A}.Debug|x86.ActiveCfg = Debug|Win32
+		{29FA744E-836A-4D5D-AC44-19539A0A690A}.Debug|x86.Build.0 = Debug|Win32
+		{29FA744E-836A-4D5D-AC44-19539A0A690A}.Release|x64.ActiveCfg = Release|x64
+		{29FA744E-836A-4D5D-AC44-19539A0A690A}.Release|x64.Build.0 = Release|x64
+		{29FA744E-836A-4D5D-AC44-19539A0A690A}.Release|x86.ActiveCfg = Release|Win32
+		{29FA744E-836A-4D5D-AC44-19539A0A690A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
