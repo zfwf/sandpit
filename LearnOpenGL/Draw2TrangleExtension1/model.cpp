@@ -4,7 +4,34 @@
 
 
 
-bool CModelBase::compileShaders(const char* vertexShaderSource, const char* fragmentShaderSource)
+//void clearView(GLfloat r, GLfloat g, GLfloat b, GLfloat alpha);
+//void 
+
+void CModel::setVertices(std::vector<GLfloat>& vertices)
+{
+  this->vertices = vertices;
+
+  // get vertices into VBO
+  if (VAO == 0)
+    glGenVertexArrays(1, &VAO); // 1. gnerate vertex array object
+
+  glBindVertexArray(VAO); // 2. bind vertex array, this will be the array to store the vertex buffers
+
+  if (VBO != 0)
+    glDeleteBuffers(1, &VBO);
+
+  glGenBuffers(1, &VBO); // 1. generate vertex buffer object
+  glBindBuffer(GL_ARRAY_BUFFER, VBO); // 2. bind to vertex array (if do not gen vertex array above, it will go to an inbuilt one)
+  glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(GLfloat), this->vertices.data(), GL_STATIC_DRAW); // 3. copy vertices data to VBO, which now is bound to a vertex array
+
+  // 4. Then set our vertex attributes pointers for the "position" vertex attribute. vertex consist of 3 vertices, starting at 0 position in vertices array. each vertex is 3 float variable, no padding between vertices
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+  glEnableVertexAttribArray(0); // enable the above attribute (which is at postion 0 in attribute array)
+  glBindVertexArray(0); // unbind the VAO after setup
+}
+
+
+bool CModel::compileShaders(const char* vertexShaderSource, const char* fragmentShaderSource)
 {
   GLint success;
   GLchar infoLog[512];
@@ -50,7 +77,36 @@ bool CModelBase::compileShaders(const char* vertexShaderSource, const char* frag
   return true;
 }
 
-CModelBase::~CModelBase()
+bool CModel::setShaders(const char* vertexShaderSource, const char* fragmentShaderSource)
+{
+  return compileShaders(vertexShaderSource, fragmentShaderSource);
+}
+
+void CModel::setDrawLoopFuncs(void(*clear)(), void(*draw)())
+{
+  clearBufferFunc = clear;
+  drawFunc = draw;
+}
+
+void CModel::render()
+{
+  clearBufferFunc();
+  
+  glUseProgram(shaderProgram); // choose the program we want to use
+  glBindVertexArray(VAO); // bind
+  //draw
+  drawFunc();
+
+  glBindVertexArray(0); //unbind
+}
+
+void CModel::clearView()
+{
+  glClearBufferfi();
+}
+
+
+CModel::~CModel()
 {
   if (VAO != 0)
     glDeleteVertexArrays(1, &VAO);
@@ -65,21 +121,14 @@ CModelBase::~CModelBase()
 
 C2TriangleModel::C2TriangleModel()
 {
-
-}
-
-bool  C2TriangleModel::init()
-{
   prep2Triangles();
-  if (!createShaders())
-    return false;
-
-  return true;
+  createShaders();
 }
 
-void C2TriangleModel::setVertices()
+
+void C2TriangleModel::prep2Triangles()
 {
-  vertices = {
+  std::vector<GLfloat> triangles = {
     0.5F,   0.5F,  0.0F,
     1.0F,   -0.5F, 0.0F,
     0.2F,   -0.5F, 0.0F,
@@ -88,34 +137,7 @@ void C2TriangleModel::setVertices()
     -1.0F,  -0.5F, 0.0F
   };
 
-  //vertices = {
-  //  // First triangle
-  //  -0.9f, -0.5f, 0.0f,  // Left 
-  //  -0.0f, -0.5f, 0.0f,  // Right
-  //  -0.45f, 0.5f, 0.0f,  // Top 
-  //                       // Second triangle
-  //                       0.0f, -0.5f, 0.0f,  // Left
-  //                       0.9f, -0.5f, 0.0f,  // Right
-  //                       0.45f, 0.5f, 0.0f   // Top 
-  //};
-}
-
-void C2TriangleModel::prep2Triangles()
-{
-  setVertices();
-
-  glGenVertexArrays(1, &VAO); // 1. gnerate vertex array object
-  glBindVertexArray(VAO); // 2. bind vertex array, this will be the array to store the vertex buffers
-
-  glGenBuffers(1, &VBO); // 1. generate vertex buffer object
-  glBindBuffer(GL_ARRAY_BUFFER, VBO); // 2. bind to vertex array (if do not gen vertex array above, it will go to an inbuilt one)
-  glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW); // 3. copy vertices data to VBO, which now is bound to a vertex array
-  //glBufferData(GL_ARRAY_BUFFER, sizeof(verticesArr), verticesArr, GL_STATIC_DRAW);
-
-  // 4. Then set our vertex attributes pointers for the "position" vertex attribute. vertex consist of 3 vertices, starting at 0 position in vertices array. each vertex is 3 float variable, no padding between vertices
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-  glEnableVertexAttribArray(0); // enable the above attribute (which is at postion 0 in attribute array)
-  glBindVertexArray(0); // unbind the VAO after setup
+  setVertices(triangles);
 }
 
 bool C2TriangleModel::createShaders()
@@ -128,7 +150,7 @@ bool C2TriangleModel::createShaders()
     "gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
     "}\0";
 
-  GLchar* fragmentShaderSource = 
+  GLchar* fragmentShaderSource =
     "#version 330 core\n"
     "out vec4 color;\n"
     "void main()\n"
@@ -137,7 +159,7 @@ bool C2TriangleModel::createShaders()
     "}\n\0";
 
   auto ret = compileShaders(vertexShaderSource, fragmentShaderSource);
-    return ret;
+  return ret;
 }
 
 void C2TriangleModel::render()
@@ -148,12 +170,12 @@ void C2TriangleModel::render()
 
   glUseProgram(shaderProgram); // choose the program we want to use
   glBindVertexArray(VAO); // bind
-
-  /*glDrawArrays(GL_TRIANGLES, 0, 3);
-  glDrawArrays(GL_TRIANGLES, 3, 3);*/
+  
   glDrawArrays(GL_TRIANGLES, 0, 6); // more efficient than 2 draw calls
   glBindVertexArray(0); //unbind
 }
+
+
 
 
 C2TriangleModel::~C2TriangleModel()

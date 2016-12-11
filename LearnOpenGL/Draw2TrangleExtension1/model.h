@@ -7,12 +7,14 @@
 
 #include <vector>
 
-class CModelBase 
+class CModel 
 {
 public:
-  virtual bool init() = 0;
-  virtual void render() = 0;  
-  virtual ~CModelBase();
+  virtual void setVertices(std::vector<GLfloat>& vertices);
+  virtual bool setShaders(const char* vertexShaderSource, const char* fragmentShaderSource);
+  virtual void setDrawLoopFuncs(void(*clear)(), void(*draw)());
+  virtual void render();
+  virtual ~CModel();
 
 protected:
   GLuint VAO;
@@ -20,21 +22,21 @@ protected:
   GLuint EBO; 
   GLuint shaderProgram;
   std::vector<GLfloat> vertices;
+  void(*clearBufferFunc)();
+  void(*drawFunc)();
 
-  virtual void setVertices() = 0;
+  
   bool compileShaders(const char* vertexShaderSource, const char* fragmentShaderSource);
   
 };
 
-class C2TriangleModel : public CModelBase
+class C2TriangleModel : public CModel
 {
 public:
   C2TriangleModel();
-  bool init();
   ~C2TriangleModel();
 
 protected:
-  void setVertices();
   bool createShaders();
   void render();
 
@@ -46,7 +48,7 @@ private:
 class CScene
 {
 public:
-  std::vector<CModelBase*> models;
+  std::vector<CModel*> models;
   void init();
   void render();
 
