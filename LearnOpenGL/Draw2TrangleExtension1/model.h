@@ -12,7 +12,7 @@ class CModel
 public:
   virtual void setVertices(std::vector<GLfloat>& vertices);
   virtual bool setShaders(const char* vertexShaderSource, const char* fragmentShaderSource);
-  virtual void setDrawLoopFuncs(void(*clear)(), void(*draw)());
+  virtual void setDrawLoopFuncs(void(*draw)());
   virtual void render();
   virtual ~CModel();
 
@@ -22,7 +22,7 @@ protected:
   GLuint EBO; 
   GLuint shaderProgram;
   std::vector<GLfloat> vertices;
-  void(*clearBufferFunc)();
+  
   void(*drawFunc)();
 
   
@@ -51,6 +51,10 @@ public:
   std::vector<CModel*> models;
   void init();
   void render();
+  void clear();
+  void setClearFunc(void(*clearBufferFunc)());
+protected:
+  void(*clearBufferFunc)();
 
 private:
 };

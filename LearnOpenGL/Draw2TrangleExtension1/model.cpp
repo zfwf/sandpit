@@ -82,17 +82,13 @@ bool CModel::setShaders(const char* vertexShaderSource, const char* fragmentShad
   return compileShaders(vertexShaderSource, fragmentShaderSource);
 }
 
-void CModel::setDrawLoopFuncs(void(*clear)(), void(*draw)())
+void CModel::setDrawLoopFuncs(void(*draw)())
 {
-  clearBufferFunc = clear;
   drawFunc = draw;
 }
 
 void CModel::render()
 {
-  // clear the screen buffer
-  clearBufferFunc();
-  
   glUseProgram(shaderProgram); // choose the program we want to use
   glBindVertexArray(VAO); // bind
   
@@ -183,8 +179,16 @@ C2TriangleModel::~C2TriangleModel()
 
 void CScene::render()
 {
+  // clear screen buffer
+  clearBufferFunc();
+
   for (auto &m : models)
   {
     m->render();
   }
+}
+
+void CScene::setClearFunc(void(*clearBufferFunc)())
+{
+  this->clearBufferFunc = clearBufferFunc;
 }
