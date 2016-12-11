@@ -90,20 +90,18 @@ void CModel::setDrawLoopFuncs(void(*clear)(), void(*draw)())
 
 void CModel::render()
 {
+  // clear the screen buffer
   clearBufferFunc();
   
   glUseProgram(shaderProgram); // choose the program we want to use
   glBindVertexArray(VAO); // bind
+  
   //draw
   drawFunc();
 
   glBindVertexArray(0); //unbind
 }
 
-void CModel::clearView()
-{
-  glClearBufferfi();
-}
 
 
 CModel::~CModel()
