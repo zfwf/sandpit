@@ -27,11 +27,8 @@ class MainPage(Handler):
         self.render('rot13_textarea.htm')
 
     def post(self):
-        #self.response.headers['Content-Type'] = 'text/plain'
-        rot13 = self.request.get('content')
-        print ('rot13 = ' + rot13)
+        rot13 = self.request.get('text')
         encoded = encoderot13.encode(rot13)
-        print ('encoded = ' + encoded)
         self.render('rot13_textarea.htm', rot13=encoded)
 
 
