@@ -1,0 +1,23 @@
+{% extends "base.htm" %}
+
+{% block content %}
+<form>
+  <h2>Add food!</h2>
+  <input type="text" name="food">  
+  {% if items %}
+    {% include 'hidden.htm' %}
+  {% endif %}
+  <button>add</button>
+
+  {% if items %}
+    <br>
+    <br>
+    <h2>Shopping List</h2>
+    <ul>
+      {% include 'item.htm' %}
+    </ul>
+  {% endif %}
+</form>
+
+
+{% endblock %}
