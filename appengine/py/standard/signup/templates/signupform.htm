@@ -1,0 +1,50 @@
+{% extends "base.htm" %}
+
+{% block content %}
+<style>
+span {
+  color: red;
+}
+
+label {
+  display: inline-block;
+  width: 140px;
+  text-align: right;
+  margin-right: 15px;
+}
+
+.username_error {
+  display: {{username_format_error_visibility|default('none')}};
+}
+
+.password_error {
+  display: {{password_format_error_visibility|default('none')}};
+}
+
+.password_match_error {
+  display: {{password_match_error_visibility|default('none')}};
+}
+
+.email_error {
+  display: {{email_format_error_visibility|default('none')}};
+}
+
+</style>
+<form method="post">
+  <h2>Sign up</h2>
+  <label>Username</label><input type="text" name="username" value="{{username}}">
+  <span class="username_error">That's not a valid name</span>
+  <br>
+  <label>Password</label><input type="password" name="password">
+  <span class="password_error">That's not a valid password</span>
+  <br>
+  <label>Verify Password</label><input type="password" name="verify">
+  <span class="password_match_error">Password does not match</span>
+  <br>
+  <label>Email (optional)</label><input type="text" name="email" value="{{email}}">
+  <span class="email_error">That's not a valid email</span>
+  <br>
+  <br>
+  <button>Sign up</button>
+</form>
+{% endblock %}
