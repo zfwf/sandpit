@@ -1,9 +1,7 @@
 import os
 import sys
 
-# to proj root
-sys.path.insert(0, os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__))))
+
 
 import imp
 gae = imp.load_source(
@@ -14,4 +12,5 @@ gae = imp.load_source(
 # add gae libs to path
 sys.path.extend(gae.TEST_LIBRARY_PATHS)
 print 'import_gae'
-#print sys.path
+# print sys.path
+import webapp2
