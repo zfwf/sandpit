@@ -1,35 +1,49 @@
-import sys
-import os
 import webtest
 import unittest
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import imports_gae
+import re
+import imports
 import webapp2
-
-# to proj root
-sys.path.insert(
-    0,
-    os.path.dirname(os.path.dirname(
-        os.path.dirname(os.path.abspath(__file__))))
-)
-
-from handlers import MainPage, WelcomePage
+import main
 
 
 class TestValidator(unittest.TestCase):
 
     def setUp(self):
-        self.app = webtest.TestApp(webapp2.WSGIApplication([
-            ('/', MainPage),
-            ('/welcome', WelcomePage)
-        ], debug=True))
+        self.app = webtest.TestApp(main.app)
 
     def test_get(self):
-        response = self.app.get('/')
+        res = self.app.get('/')
 
-        assert response.status_int == 200
-        assert response.body == 'Hello, World!'
+        assert res.status_int == 200
+        assert '<form method="post">' in res.body
+        form = res.form
+
+        assert form.method == 'post'
+        assert form.action == ''
+        assert len(form.fields) == 5
+
+    def test_form_submit_success(self):
+        appResponse = self.app.get('/')
+        form = appResponse.form
+        form.set('username', 'foo')
+        form.set('password', 'bar')
+        form.set('verify', 'bar')
+        formRes = form.submit()
+
+        redirectedResponse = formRes.follow()
+        assert 'Welcome! foo' in redirectedResponse
+
+    def test_form_submit_failure(self):
+        appResponse = self.app.get('/')
+        form = appResponse.form
+        form.set('username', 'foo')
+        form.set('password', 'bar')
+        form.set('verify', 'bar2222')
+        formRes = form.submit()
+        print 'formres.body'
+        print formRes.body
+        assert re.match(
+            r".*(\.password_match_error)\s*\{\s*(display:\s*inline-block;)\s*\}", formRes.body, re.DOTALL)
 
 
 if __name__ == '__main__':

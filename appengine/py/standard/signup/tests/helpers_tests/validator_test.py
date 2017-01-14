@@ -1,5 +1,6 @@
 import unittest
-from imports import validator
+import imports
+from helpers import validator
 
 
 class TestValidator(unittest.TestCase):

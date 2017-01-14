@@ -1,8 +1,6 @@
 import os
 import sys
 
-
-
 import imp
 gae = imp.load_source(
     'gae',
@@ -11,6 +9,3 @@ gae = imp.load_source(
 
 # add gae libs to path
 sys.path.extend(gae.TEST_LIBRARY_PATHS)
-print 'import_gae'
-# print sys.path
-import webapp2
