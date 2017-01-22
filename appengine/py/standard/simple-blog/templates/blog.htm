@@ -1,0 +1,16 @@
+{% extends "base.htm" %}
+
+{% block content %}
+  <h2>Sample Blog</h2>
+  <br>
+  <br>
+  <hr>
+  <br>
+  <br>
+
+  {% if posts %}
+    {% for post in posts %}
+      {% include 'blog_post.htm' %}
+    {% endfor %}
+  {% endif %}
+{% endblock %}
