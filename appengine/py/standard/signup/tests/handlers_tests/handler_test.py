@@ -6,7 +6,7 @@ import webapp2
 import main
 
 
-class TestValidator(unittest.TestCase):
+class TestHandlers(unittest.TestCase):
 
     def setUp(self):
         self.app = webtest.TestApp(main.app)
