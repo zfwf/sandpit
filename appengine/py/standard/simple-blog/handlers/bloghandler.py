@@ -14,12 +14,12 @@ class BlogPostHandler(Handler):
 
     def get(self, post_id, *args, **kwargs):
         """Get a specific post through it permalink"""
-
-        self.write('reply from get BlogPostHandler %s' % post_id)
         # find post
-        # post = Post.get_by_id(post_id)
-        # if post != None:
-        #     self.render('blog_post.htm', post=post)
+        post = Post.get_by_id(int(post_id))
+        if post != None:
+            self.render('blog_post.htm', post=post)
+        else:
+            self.write('No blog post with id %s found' % post_id)
 
 
 class BlogNewPostHandler(Handler):
