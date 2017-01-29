@@ -9,36 +9,28 @@ span {
 label {
   display: inline-block;
   width: 140px;
-  text-align: right;
+  text-align: left;
   margin-right: 15px;
 }
 
-.username_error {
-  display: {{username_format_error_visibility|default('none')}};
+.subject_error {
+  display: {{subject_error_visibility|default('none')}};
 }
 
-.password_error {
-  display: {{password_format_error_visibility|default('none')}};
-}
-
-.password_match_error {
-  display: {{password_match_error_visibility|default('none')}};
-}
-
-.email_error {
-  display: {{email_format_error_visibility|default('none')}};
+.content_error {
+  display: {{content_error_visibility|default('none')}};
 }
 
 </style>
 <form method="post">
   <h2>New Post</h2>
-  <label>Username</label><input type="text" name="subject" value="{{username}}">
-  <span class="username_error">That's not a valid name</span>
+  <label>Subject</label><input type="text" name="subject" value="{{subject}}">
+  <span class="subject_error">Subject cannot be empty</span>
   <br>
-  <label>Password</label><input type="password" name="content">
-  <span class="password_error">That's not a valid password</span>
+  <label>Content</label><textarea name="content">{{content}}</textarea>
+  <span class="content_error">Content cannot be empty</span>
   <br>
   <br>
-  <button>Sign up</button>
+  <button>Add post</button>
 </form>
 {% endblock %}

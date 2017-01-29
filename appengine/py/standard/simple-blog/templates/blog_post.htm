@@ -1,3 +1,24 @@
-<h3 class="post-subject">{{post.title}}</h3>
+<h3 class="post-subject">{{post.subject}}</h3>
+<span class="post-createtime">{{post.created}}</span>
+<hr>
 <br>
 <pre class="post-content">{{post.content}}</pre>
+<br>
+<hr>
+<br>
+<a class="to_blog" href="/blog">Back to blog</a>
+
+<style>
+.post-subject {
+  display: inline-block;
+  text-align: left;
+}
+
+.post-createtime {
+  display: inline-block;
+  text-align: right;
+}
+.to_blog {
+  display: {{to_blog_visibility|default('none')}};
+}
+</style>

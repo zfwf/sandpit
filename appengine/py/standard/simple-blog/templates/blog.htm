@@ -1,7 +1,14 @@
 {% extends "base.htm" %}
 
 {% block content %}
+  <style>
+  .no_post_warning {
+    display: {{no_post_warning_visibility|default('none')}};
+  }
+  </style>
+
   <h2>Sample Blog</h2>
+  <a href="/blog/newpost">New Post</a>
   <br>
   <br>
   <hr>
@@ -13,4 +20,8 @@
       {% include 'blog_post.htm' %}
     {% endfor %}
   {% endif %}
+  <div class="no_post_warning">
+    <span>There is no post yet, please come back later, or add a </span>
+    <a href="/blog/newpost">post</a>
+  </div>
 {% endblock %}
