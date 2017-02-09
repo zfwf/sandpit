@@ -14,7 +14,7 @@ from google.appengine.ext import testbed
 
 helper.insert_proj_root()
 import main
-from data import Post
+from app.data import Post
 
 
 class BaseTestFixture(unittest.TestCase):
@@ -47,25 +47,25 @@ class TestBlogReadHandlers(BaseTestFixture):
         # setup a bunch of post for testing
         self.posts = [
             Post(key=ndb.Key('Post', 1), subject='subject 1', content='content 1',
-                 created=datetime.datetime.now()),
+                 created=datetime.datetime.now(), user_id=1),
             Post(key=ndb.Key('Post', 2), subject='subject 2', content='content 2',
-                 created=datetime.datetime.now()),
+                 created=datetime.datetime.now(), user_id=1),
             Post(key=ndb.Key('Post', 3), subject='subject 3', content='content 3',
-                 created=datetime.datetime.now()),
+                 created=datetime.datetime.now(), user_id=1),
             Post(key=ndb.Key('Post', 4), subject='subject 4', content='content 4',
-                 created=datetime.datetime.now()),
+                 created=datetime.datetime.now(), user_id=1),
             Post(key=ndb.Key('Post', 5), subject='subject 5', content='content 5',
-                 created=datetime.datetime.now()),
+                 created=datetime.datetime.now(), user_id=1),
             Post(key=ndb.Key('Post', 6), subject='subject 6', content='content 6',
-                 created=datetime.datetime.now()),
+                 created=datetime.datetime.now(), user_id=1),
             Post(key=ndb.Key('Post', 7), subject='subject 7', content='content 7',
-                 created=datetime.datetime.now()),
+                 created=datetime.datetime.now(), user_id=1),
             Post(key=ndb.Key('Post', 8), subject='subject 8', content='content 8',
-                 created=datetime.datetime.now()),
+                 created=datetime.datetime.now(), user_id=1),
             Post(key=ndb.Key('Post', 9), subject='subject 9', content='content 9',
-                 created=datetime.datetime.now()),
+                 created=datetime.datetime.now(), user_id=1),
             Post(key=ndb.Key('Post', 10), subject='subject 10', content='content 10',
-                 created=datetime.datetime.now()),
+                 created=datetime.datetime.now(), user_id=1),
         ]
 
     def test_get_blog_post(self):
@@ -97,6 +97,13 @@ class TestBlogReadHandlers(BaseTestFixture):
         assert res.status_int == 200
         assert re.match(
             r".*(\.no_post_warning)\s*\{\s*(display:\s*block;)\s*\}", res.body, re.DOTALL)
+
+    def test_get_blog_not_logged_on(self):
+        res = self.app.get('/blog')
+
+        assert res.status_int == 200
+        assert re.match(
+            r".*(\.signup_link)\s*\{\s*(display:\s*block;)\s*\}", res.body, re.DOTALL)
 
 
 class TestBlogNewPostHandlers(BaseTestFixture):
