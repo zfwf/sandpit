@@ -29,11 +29,17 @@ function main()
 
    // Create a simple vertex shader
    //
-   var vertCode =
-        'attribute vec2 coordinates;' +
-        'void main(void) {' +
-        '  gl_Position = vec4(coordinates, 0.0, 1.0);' +
-        '}';
+  //  var vertCode =
+  //       'attribute vec2 coordinates;' +
+  //       'void main(void) {' +
+  //       '  gl_Position = vec4(coordinates, 0.0, 1.0);' +
+  //       '}';
+
+  var vertCode = `
+    attribute vec2 coordinates;
+    void main(void) {
+      gl_Position = vec4(coordinates, 0.0, 1.0);
+    }`
 
    var vertShader = gl.createShader(gl.VERTEX_SHADER);
    gl.shaderSource(vertShader, vertCode);
@@ -43,10 +49,10 @@ function main()
 
    // Create a simple fragment shader
    //
-   var fragCode =
-      'void main(void) {' +
-      '   gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);' +
-      '}';
+   var fragCode = `
+      void main(void) {
+         gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0); 
+      }`
 
    var fragShader = gl.createShader(gl.FRAGMENT_SHADER);
    gl.shaderSource(fragShader, fragCode);
