@@ -63,6 +63,7 @@ tags
 *.user
 *.userosscache
 *.sln.docstates
+*.vcxproj.filters
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -221,7 +222,11 @@ PublishScripts/
 !**/packages/build/
 # Uncomment if necessary however generally it will be regenerated when needed
 #!**/packages/repositories.config
+<<<<<<< cc07e2fbeedae432a9870924d19422868eed9fc1
 # NuGet v3's project.json files produces more ignorable files
+=======
+# NuGet v3's project.json files produces more ignoreable files
+>>>>>>> initial commit
 *.nuget.props
 *.nuget.targets
 
@@ -341,3 +346,4 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+# tools/
