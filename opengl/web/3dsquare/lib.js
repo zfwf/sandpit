@@ -3,7 +3,7 @@ let lib = (function () {
   let gl
   let _getGLContext = function (viewport) {
     try {
-      let gl = viewport.getContext("webgl2");
+      gl = viewport.getContext("webgl2");
       return gl;
     } catch (e) {
       alert("You are not webgl2 compatible :(") ;
@@ -26,6 +26,8 @@ let lib = (function () {
     gl.compileShader(shader);
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
       throw new Error(gl.getShaderInfoLog(shader));
+    
+    return shader
   }
 
   return {
