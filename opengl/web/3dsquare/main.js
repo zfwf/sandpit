@@ -43,11 +43,7 @@ function main() {
         vColor = color;
       }`
 
-  var vertShader = gl.createShader(gl.VERTEX_SHADER);
-  gl.shaderSource(vertShader, vertCode);
-  gl.compileShader(vertShader);
-  if (!gl.getShaderParameter(vertShader, gl.COMPILE_STATUS))
-    throw new Error(gl.getShaderInfoLog(vertShader));
+  var vertShader = lib.getVShader(vertCode)
 
   // Create a simple fragment shader
   //
@@ -58,11 +54,7 @@ function main() {
          gl_FragColor = vec4(vColor, 1.0); 
       }`
 
-  var fragShader = gl.createShader(gl.FRAGMENT_SHADER);
-  gl.shaderSource(fragShader, fragCode);
-  gl.compileShader(fragShader);
-  if (!gl.getShaderParameter(fragShader, gl.COMPILE_STATUS))
-    throw new Error(gl.getShaderInfoLog(fragShader));
+  var fragShader = lib.getFShader(fragCode)
 
   // Put the vertex shader and fragment shader together into
   // a complete program
