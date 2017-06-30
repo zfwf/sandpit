@@ -33,11 +33,10 @@ function main() {
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, emtBuf)
   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW)
 
-  var vertCode =
-    `
-      attribute vec3 coordinates;
-      attribute vec3 color;
-      varying vec3 vColor;
+  var vertCode = `#version 300 es
+      in vec3 coordinates;
+      in vec3 color;
+      out vec3 vColor;
       void main() {
         gl_Position = vec4(coordinates, 1.0);
         vColor = color;
@@ -47,11 +46,12 @@ function main() {
 
   // Create a simple fragment shader
   //
-  var fragCode = `
+  var fragCode = `#version 300 es
       precision mediump float; // required
-      varying vec3 vColor;
+      in vec3 vColor;
+      out vec4 color;
       void main(void) {
-         gl_FragColor = vec4(vColor, 1.0); 
+         color = vec4(vColor, 1.0); 
       }`
 
   var fragShader = lib.getFShader(fragCode)
