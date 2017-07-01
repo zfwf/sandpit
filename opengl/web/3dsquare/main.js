@@ -98,7 +98,8 @@ function main() {
   lib.lenVec3 * lib.sizeofFloat32);
 
 
-  var animate = function () {
+  var render = function () {
+    lib.resizeMaintainAspect(viewport)
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.bindVertexArray(vao);
     // Now we can tell WebGL to draw the 3 points that make 
@@ -106,8 +107,8 @@ function main() {
     gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
 
     gl.flush();
-    window.requestAnimationFrame(animate);
+    window.requestAnimationFrame(render);
   };
 
-  animate();
+  render();
 }
