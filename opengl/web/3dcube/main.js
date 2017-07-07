@@ -97,21 +97,19 @@ function main() {
   // hardware should be fed to the vertex shader as the
   // parameter "coordinates"
   let coordinateAddr = gl.getAttribLocation(shaderProgram, "coordinates");
-  gl.enableVertexAttribArray(coordinateAddr);
+  gl.enableVertexAttribArray(coordinateAddr)
 
-  let colorAddr = gl.getAttribLocation(shaderProgram, "color");
-  gl.enableVertexAttribArray(colorAddr);
+  let colorAddr = gl.getAttribLocation(shaderProgram, "color")
+  gl.enableVertexAttribArray(colorAddr)
 
   //Describe layout of the array buffer
   //index, size (vec3 = 3), type, normalized, stride (length to next item from start of current element, interlace with vec3 = (3+3)*4, each item is a float32, hence 4 bytes), offset (from 0, the first element of array buffer)
   gl.vertexAttribPointer(coordinateAddr, 3, gl.FLOAT, false,
-    (lib.lenVec3 + lib.lenVec3) * lib.sizeofFloat32, 0);
+    (lib.lenVec3 + lib.lenVec3) * lib.sizeofFloat32, 0)
   // color is similar to above but start after first vec3
   gl.vertexAttribPointer(colorAddr, 3, gl.FLOAT, false,
     (lib.lenVec3 + lib.lenVec3) * lib.sizeofFloat32,
-    lib.lenVec3 * lib.sizeofFloat32);
-
-
+    lib.lenVec3 * lib.sizeofFloat32)
 
   let rotation = {
     x: 0,
@@ -124,13 +122,13 @@ function main() {
     y: 0
   }
 
-  let isDragging = false;
+  let isDragging = false
 
   viewport.addEventListener("mousedown", function (e) {
-    isDragging = true;
+    isDragging = true
   })
   viewport.addEventListener("mouseup", function (e) {
-    isDragging = false;
+    isDragging = false
   })
   viewport.addEventListener("mousemove", function (e) {
     if (isDragging) {
@@ -139,36 +137,38 @@ function main() {
         y: e.offsetY - previousMousePosition.y,
       }
 
-      console.log(rotation)
-      rotation.x += toRadian(deltaMove.x)
-      rotation.y += toRadian(deltaMove.y)
+      console.log('e.offsetx ', e.offsetX)
+      console.log('e.offsety ', e.offsetY)
+      console.log(deltaMove)
+      rotation.x -= toRadian(deltaMove.y)
+      rotation.y -= toRadian(deltaMove.x)
     }
+
+    previousMousePosition = { x: e.offsetX, y: e.offsetY }
   })
 
-
-
-
-  let matrixAddr = gl.getUniformLocation(shaderProgram, "mvp");
+  let matrixAddr = gl.getUniformLocation(shaderProgram, "mvp")
 
   let render = function () {
     lib.resizeMaintainAspect(viewport)
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+    // gl.enable(gl.CULL_FACE)
 
     // rotate x by 1 deg per frame, takes 3 second to complete a full 360 deg rotation
     let mvp = m4.xRotate(m4.identity(), rotation.x)
     mvp = m4.yRotate(mvp, rotation.y)
-    gl.uniformMatrix4fv(matrixAddr, false, mvp);
+    gl.uniformMatrix4fv(matrixAddr, false, mvp)
 
     gl.bindVertexArray(vao);
     // Now we can tell WebGL to draw the 3 points that make 
     // up the triangle and another 3 to create the square
-    gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+    gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0)
 
-    gl.flush();
-    window.requestAnimationFrame(render);
+    gl.flush()
+    window.requestAnimationFrame(render)
   };
 
-  render();
+  render()
 }
 
 function toRadian(angleInDeg) {
@@ -178,38 +178,38 @@ function toRadian(angleInDeg) {
 // matrices
 let m4 = {
   multiply: function (a, b) {
-    var a00 = a[0 * 4 + 0];
-    var a01 = a[0 * 4 + 1];
-    var a02 = a[0 * 4 + 2];
-    var a03 = a[0 * 4 + 3];
-    var a10 = a[1 * 4 + 0];
-    var a11 = a[1 * 4 + 1];
-    var a12 = a[1 * 4 + 2];
-    var a13 = a[1 * 4 + 3];
-    var a20 = a[2 * 4 + 0];
-    var a21 = a[2 * 4 + 1];
-    var a22 = a[2 * 4 + 2];
-    var a23 = a[2 * 4 + 3];
-    var a30 = a[3 * 4 + 0];
-    var a31 = a[3 * 4 + 1];
-    var a32 = a[3 * 4 + 2];
-    var a33 = a[3 * 4 + 3];
-    var b00 = b[0 * 4 + 0];
-    var b01 = b[0 * 4 + 1];
-    var b02 = b[0 * 4 + 2];
-    var b03 = b[0 * 4 + 3];
-    var b10 = b[1 * 4 + 0];
-    var b11 = b[1 * 4 + 1];
-    var b12 = b[1 * 4 + 2];
-    var b13 = b[1 * 4 + 3];
-    var b20 = b[2 * 4 + 0];
-    var b21 = b[2 * 4 + 1];
-    var b22 = b[2 * 4 + 2];
-    var b23 = b[2 * 4 + 3];
-    var b30 = b[3 * 4 + 0];
-    var b31 = b[3 * 4 + 1];
-    var b32 = b[3 * 4 + 2];
-    var b33 = b[3 * 4 + 3];
+    var a00 = a[0 * 4 + 0]
+    var a01 = a[0 * 4 + 1]
+    var a02 = a[0 * 4 + 2]
+    var a03 = a[0 * 4 + 3]
+    var a10 = a[1 * 4 + 0]
+    var a11 = a[1 * 4 + 1]
+    var a12 = a[1 * 4 + 2]
+    var a13 = a[1 * 4 + 3]
+    var a20 = a[2 * 4 + 0]
+    var a21 = a[2 * 4 + 1]
+    var a22 = a[2 * 4 + 2]
+    var a23 = a[2 * 4 + 3]
+    var a30 = a[3 * 4 + 0]
+    var a31 = a[3 * 4 + 1]
+    var a32 = a[3 * 4 + 2]
+    var a33 = a[3 * 4 + 3]
+    var b00 = b[0 * 4 + 0]
+    var b01 = b[0 * 4 + 1]
+    var b02 = b[0 * 4 + 2]
+    var b03 = b[0 * 4 + 3]
+    var b10 = b[1 * 4 + 0]
+    var b11 = b[1 * 4 + 1]
+    var b12 = b[1 * 4 + 2]
+    var b13 = b[1 * 4 + 3]
+    var b20 = b[2 * 4 + 0]
+    var b21 = b[2 * 4 + 1]
+    var b22 = b[2 * 4 + 2]
+    var b23 = b[2 * 4 + 3]
+    var b30 = b[3 * 4 + 0]
+    var b31 = b[3 * 4 + 1]
+    var b32 = b[3 * 4 + 2]
+    var b33 = b[3 * 4 + 3]
     return [
       b00 * a00 + b01 * a10 + b02 * a20 + b03 * a30,
       b00 * a01 + b01 * a11 + b02 * a21 + b03 * a31,
@@ -227,7 +227,7 @@ let m4 = {
       b30 * a01 + b31 * a11 + b32 * a21 + b33 * a31,
       b30 * a02 + b31 * a12 + b32 * a22 + b33 * a32,
       b30 * a03 + b31 * a13 + b32 * a23 + b33 * a33,
-    ];
+    ]
   },
   identity: function () {
     return [
@@ -246,8 +246,8 @@ let m4 = {
     ]
   },
   xRotation: function (angleInRad) {
-    let c = Math.cos(angleInRad);
-    let s = Math.sin(angleInRad);
+    let c = Math.cos(angleInRad)
+    let s = Math.sin(angleInRad)
     return [
       1, 0, 0, 0,
       0, c, s, 0,
@@ -256,8 +256,8 @@ let m4 = {
     ]
   },
   yRotation: function (angleInRad) {
-    let c = Math.cos(angleInRad);
-    let s = Math.sin(angleInRad);
+    let c = Math.cos(angleInRad)
+    let s = Math.sin(angleInRad)
     return [
       c, 0, -s, 0,
       0, 1, 0, 0,
@@ -266,10 +266,11 @@ let m4 = {
     ]
   },
   zRotation: function (angleInRad) {
-    let c = Math.cos(angleInRad);
-    let s = Math.sin(angleInRad);
+    let c = Math.cos(angleInRad)
+    let s = Math.sin(angleInRad)
     return [
-      c, s, 0, 0, -s, c, 0, 0,
+      c, s, 0, 0, 
+      -s, c, 0, 0,
       0, 0, 1, 0,
       0, 0, 0, 1,
     ]
