@@ -5,7 +5,8 @@ function main() {
   let gl = lib.getGLContext(viewport)
 
   // Vertices to draw, interlaced with color
-  let vertices = [-0.5, 0.5, -0.5, // front face
+  let vertices = [
+    -0.5, 0.5, -0.5, // front face
     1.0, 0.0, 0.0, // red
     0.5, 0.5, -0.5,
     0.0, 1.0, 0.0, // green
@@ -28,11 +29,11 @@ function main() {
   // the vertex attribute pointer will instruct graphics hardware to pick out the vertices from the color in the vertices array above. The indices below can ignore that color is also part of the same array being indexed. 
   let indices = [ // 6 faces
     0, 1, 2, 2, 3, 0,
-    4, 5, 6, 6, 7, 4,
     4, 5, 1, 1, 0, 4,
     1, 5, 6, 6, 2, 1,
-    7, 6, 2, 2, 3, 7,
-    0, 4, 7, 7, 3, 0,
+    6, 7, 3, 3, 2, 6,
+    4, 0, 3, 3, 7, 4,
+    5, 4, 7, 7, 6, 5,
   ]
 
   let vao = gl.createVertexArray();
@@ -148,11 +149,12 @@ function main() {
   })
 
   let matrixAddr = gl.getUniformLocation(shaderProgram, "mvp")
+  gl.enable(gl.DEPTH_TEST);
+  gl.enable(gl.CULL_FACE)
 
   let render = function () {
     lib.resizeMaintainAspect(viewport)
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-    // gl.enable(gl.CULL_FACE)
 
     // rotate x by 1 deg per frame, takes 3 second to complete a full 360 deg rotation
     let mvp = m4.xRotate(m4.identity(), rotation.x)
