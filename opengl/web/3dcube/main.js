@@ -66,7 +66,7 @@ function main() {
       in vec3 vColor;
       out vec4 color;
       void main(void) {
-         color = vec4(vColor, 1.0); 
+         color = vec4(vColor, 0.5); 
       }`
 
   let fragShader = lib.getFShader(fragCode)
@@ -138,9 +138,6 @@ function main() {
         y: e.offsetY - previousMousePosition.y,
       }
 
-      console.log('e.offsetx ', e.offsetX)
-      console.log('e.offsety ', e.offsetY)
-      console.log(deltaMove)
       rotation.x -= toRadian(deltaMove.y)
       rotation.y -= toRadian(deltaMove.x)
     }
@@ -150,20 +147,17 @@ function main() {
 
   let matrixAddr = gl.getUniformLocation(shaderProgram, "mvp")
   gl.enable(gl.DEPTH_TEST);
-  gl.enable(gl.CULL_FACE)
+  // gl.enable(gl.CULL_FACE)
 
   let render = function () {
     lib.resizeMaintainAspect(viewport)
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
-    // rotate x by 1 deg per frame, takes 3 second to complete a full 360 deg rotation
     let mvp = m4.xRotate(m4.identity(), rotation.x)
     mvp = m4.yRotate(mvp, rotation.y)
     gl.uniformMatrix4fv(matrixAddr, false, mvp)
 
     gl.bindVertexArray(vao);
-    // Now we can tell WebGL to draw the 3 points that make 
-    // up the triangle and another 3 to create the square
     gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0)
 
     gl.flush()
