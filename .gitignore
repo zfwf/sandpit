@@ -347,3 +347,5 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 # tools/
+
+rust/dist/
